@@ -181,7 +181,7 @@
                           <td><?php echo $p->alamat ?></td>
                           <td><?php echo $p->tglpesan ?></td>
                           <td><?php echo $p->batasbayar ?></td>
-                          <td><?php echo anchor('home/detail/'.$p->idinvoice, '<div class="btn btn-primary">Detail</div>') ?></td>
+                          <td><?php echo anchor('admin/detail/'.$p->idinvoice, '<div class="btn btn-primary">Detail</div>') ?></td>
                         </tr>
                       <?php } ?>
                     </table>

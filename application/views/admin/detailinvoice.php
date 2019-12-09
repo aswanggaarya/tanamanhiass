@@ -53,8 +53,8 @@
           </div>
 
           <!-- Nav Item - Charts -->
-          <li class="nav-item active">
-            <a class="nav-link" href="<?=base_url('admin/registrasi')?>">
+          <li class="nav-item">
+            <a class="nav-link" href="<?=base_url('admin/entri')?>">
               <span style="color: #469315;">Registrasi</span>
             </a>
           </li>
@@ -64,7 +64,7 @@
               <span style="color: #469315;">Barang</span></a>
           </li>
 
-          <li class="nav-item">
+          <li class="nav-item active">
             <a class="nav-link" href="<?=base_url('admin/invoice')?>">
               <span style="color: #469315;">Invoice</span></a>
           </li>
@@ -153,144 +153,48 @@
 
           <div class="row">
 
-            <div class="col-xl-8 col-lg-4">
+            <div class="col-xl-12 col-lg-8">
 
               <!-- Area Chart -->
               <div class="card shadow">
                 <div class="card-body">
                   <div class="chart-area">
                     
-                    <h3>List Admin</h3>
-                    <button type="button" class="btn btn-primary" style="margin-bottom: 2%;" data-toggle="modal" data-target="#adddataadmin">Tambah Data</button>
+                    <h3>Detail Pesanan Id Invoice <?= $invoice->idinvoice ?></h3>
                     <table class="table">
                       <thead>
                         <tr>
-                          <th scope="col">No</th>
-                          <th scope="col">Username</th>
-                          <th scope="col">Nama Admin</th>
-                          <th scope="col"></th>
+                          <th scope="col">Id Barang</th>
+                          <th scope="col">Nama Produk</th>
+                          <th scope="col">Jumlah Pesanan</th>
+                          <th scope="col">Harga Satuan</th>
+                          <th scope="col">Sub-total</th>
                         </tr>
                       </thead>
-                      <?php 
-                        $no = 1;
-                        foreach($dataadmin as $p){ 
+                      <?php
+                        $total = 0;
+                        foreach($pesanan as $p){
+                          $subtotal = $p->jumlah * $p->harga;
+                          $total += $subtotal;
                         ?>
                         <tr>
-                          <td><?php echo $no++ ?></td>
-                          <td><?php echo $p->username ?></td>
-                          <td><?php echo $p->namaadmin ?></td>
-                          <td>
-                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#updatedataadmin<?php echo $p->idadmin ?>">Ubah</button>
-                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletedataadmin<?php echo $p->idadmin ?>">Hapus</button>
-                          </td>
+                          <td><?php echo $p->idbarang ?></td>
+                          <td><?php echo $p->namabarang ?></td>
+                          <td><?php echo $p->jumlah ?></td>
+                          <td>Rp <?php echo number_format($p->harga,0,',','.') ?></td>
+                          <td>Rp <?php echo number_format($subtotal,0,',','.') ?></td>
                         </tr>
                       <?php } ?>
+                      <tr>
+                        <td colspan="4" align="right"><b>Total</b></td>
+                        <td align="right" style="color: green;"><b>Rp <?php echo number_format($total,0,',','.') ?></b></td>
+                      </tr>
                     </table>
+                    <a href="<?= base_url('admin/invoice') ?>"><button type="button" class="btn btn-primary" href="">Kembali</button></a>
 
                   </div>
                 </div>
               </div>
-
-                <!-- Modal Add admin -->
-                <div class="modal fade" id="adddataadmin" tabindex="-1" role="dialog" aria-labelledby="adddataadminLabel" aria-hidden="true">
-                  <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="adddataadminLabel" style="color: black;">Add Data Of Officers</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      
-                      <form action="<?php echo base_url(). 'admin/tambahadmin'; ?>" method="post" id="form-barang">
-                        <div class="modal-body">
-                          <div class="form-group">
-                            <p style="color: black; margin-bottom: -0.3%;"><b>Username</b></p>
-                            <input type="text" class="form-control" id="username" name="username">
-                          </div>
-                          <div class="form-group">
-                            <p style="color: black; margin-bottom: -0.3%;"><b>Password</b></p>
-                            <input type="password" class="form-control" id="password" name="password">
-                          </div>
-                          <div class="form-group">
-                            <p style="color: black; margin-bottom: -0.3%;"><b>Nama Admin</b></p>
-                            <input type="text" class="form-control" id="namaadmin" name="namaadmin">
-                          </div>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
-                          <input class="btn btn-success" type="submit" value="Tambah">
-                        </div>
-                        </td>
-                        </div>
-                      </form>
-                      
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Modal Hapus admin -->
-                <?php foreach($dataadmin as $p){ ?>
-                  <div class="modal fade" id="deletedataadmin<?php echo $p->idadmin ?>" tabindex="-1" role="dialog" aria-labelledby="adddataadminLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="adddataadminLabel" style="color: black;">Delete Data Of Admin</h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
-                        
-                          <form action="<?php echo base_url().'admin/hapusadmin'?>" method="post">
-                            <div class="modal-body">
-                                <p>You  want to delete <b><?php echo $p->namaadmin;?></b>?</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
-                                <?php echo anchor('admin/hapusadmin/'.$p->idadmin,'<button type="button" class="btn btn-danger">Hapus</button>'); ?>
-                            </div>
-                          </form>
-                        
-                      </div>
-                    </div>
-                  </div>
-                <?php } ?>
-
-                <!-- Modal Update admin -->
-                <?php foreach($dataadmin as $p){ ?>
-                  <div class="modal fade" id="updatedataadmin<?php echo $p->idadmin ?>" tabindex="-1" role="dialog" aria-labelledby="updatedataadminLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="updatedataadminLabel" style="color: black;">Update Data Of Officer</h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
-
-                        <form action="<?php echo base_url(). 'admin/updateadmin'; ?>" method="post">
-                          <div class="modal-body">
-                            <div class="form-group">
-                              <p style="color: black; margin-bottom: -0.3%;"><b>Username</b></p>
-                              <input type="hidden" class="form-control" id="idadmin" name="idadmin" value="<?php echo $p->idadmin ?>">
-                              <input type="text" class="form-control" id="username" name="username" value="<?php echo $p->username ?>">
-                            </div>
-                            <div class="form-group">
-                              <p style="color: black; margin-bottom: -0.3%;"><b>Name of Admin</b></p>
-                              <input type="text" class="form-control" id="namaadmin" name="namaadmin" value="<?php echo $p->namaadmin ?>">
-                            </div>
-                          </div>
-                          <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
-                              <input class="btn btn-success" type="submit" value="Ubah">
-                          </div>
-                        </form>
-
-                      </div>
-                    </div>
-                  </div>
-                <?php } ?>
-
 
             </div>
           </div>

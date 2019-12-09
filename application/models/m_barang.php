@@ -31,4 +31,14 @@ class M_barang extends CI_Model{
 			return array();
 		}
 	}
+
+	public function detailbarang($idbarang)
+	{
+		$result = $this->db->where('idbarang', $idbarang)->get('barang');
+		if ($result->num_rows() > 0) {
+			return $result->result();
+		}else{
+			return false;
+		}
+	}
 }

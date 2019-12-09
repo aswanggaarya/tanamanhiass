@@ -33,4 +33,24 @@ class M_invoice extends CI_Model{
 	{
 		return $this->db->get('invoice');
 	}
+
+	public function ambilidinvoice($idinvoice)
+	{
+		$result = $this->db->where('idinvoice', $idinvoice)->limit(1)->get('invoice');
+		if ($result->num_rows() > 0) {
+			return $result->row();
+		}else{
+			return false;
+		}
+	}
+
+	public function ambilidpesanan($idinvoice)
+	{
+		$result = $this->db->where('idinvoice', $idinvoice)->get('pesanan');
+		if ($result->num_rows() > 0) {
+			return $result->result();
+		}else{
+			return false;
+		}
+	}
 }

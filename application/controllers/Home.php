@@ -22,6 +22,7 @@ class Home extends CI_Controller {
 		parent::__construct();		
 		$this->load->model('m_barang');
 		$this->load->model('m_invoice');
+		$this->load->model('m_kategori');
  	 	$this->load->helper('url');
 	}
 
@@ -71,5 +72,23 @@ class Home extends CI_Controller {
 		}else{
 			echo "Maaf, Pesanan Anda Gagal diproses!";
 		}
+	}
+
+	public function tanamankaktus()
+	{
+		$data['tanamankaktus'] = $this->m_kategori->datakaktus()->result();
+		$this->load->view('home/tanamankaktus', $data);
+	}
+
+	public function tanamananggrek()
+	{
+		$data['tanamananggrek'] = $this->m_kategori->dataanggrek()->result();
+		$this->load->view('home/tanamananggrek', $data);
+	}
+
+	public function detail($idbarang)
+	{
+		$data['barang'] = $this->m_barang->detailbarang($idbarang);
+		$this->load->view('home/detailbarang', $data);
 	}
 }

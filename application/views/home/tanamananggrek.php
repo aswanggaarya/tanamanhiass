@@ -45,14 +45,10 @@
           </div>
         </form>
         <ul class="navbar-nav ml-auto">
-          <!-- <li class="nav-item">
-            <?php if ($this->session->userdata('username')) { ?>
-              <li><?php echo $this->session->userdata('username'); ?></li>
-              <li><?php echo anchor('home/logout', 'Logout') ?></li>
-            <?php }else{ ?>
-              <li><?php echo anchor('home/login', 'Login') ?></li>
-            <?php } ?>  
-          </li> -->
+          <li class="nav-item">
+
+            <a class="nav-link" href="#" style="color: #28A745;"><b>Masuk/Daftar</b></a>
+          </li>
         </ul>
         <div class="navbar">
           <ul class="nav navbar-nav navbar-right">
@@ -113,7 +109,7 @@
         </div> -->
         
           <div class="row">
-            <?php foreach ($barang as $brg) : ?>
+            <?php foreach ($tanamananggrek as $brg) : ?>
               <div class="col-lg-4 col-md-6">
                
                   <div class="card" style="border: 0;">

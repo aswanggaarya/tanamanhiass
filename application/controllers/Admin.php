@@ -166,6 +166,15 @@ class Admin extends CI_Controller {
 		$this->load->view('admin/invoice', $data);
 	}
 
+	public function detail($idinvoice)
+	{
+		$data['admin'] = $this->db->get_where('admin', ['username' => $this->session->userdata('username')])->result();
+		$data['invoice'] = $this->m_invoice->ambilidinvoice($idinvoice);
+		$data['pesanan'] = $this->m_invoice->ambilidpesanan($idinvoice);
+
+		$this->load->view('admin/detailinvoice', $data);
+	}
+
 	public function logout()
 	{
 		$this->session->unset_userdata('username');
